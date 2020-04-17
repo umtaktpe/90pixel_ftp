@@ -1,10 +1,12 @@
 <?php
+
 namespace App\Classes;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 
-class FTP {
+class FTP
+{
     public $directory = 'categories/';
 
     public function getFile()
@@ -25,17 +27,22 @@ class FTP {
         $dates = [];
         foreach ($files as $file) {
             $path_parts = pathinfo($file);
-            if (isset($path_parts['extension']) == 'xlsx') {
+            // Extension control
+            if (isset($path_parts['extension']) && $path_parts['extension'] == 'xlsx') {
                 $date = explode('-', $path_parts['filename']);
                 $date = end($date);
+                // Invalid date check
                 if ($this->isDateValid($date)) {
                     $convertToDate = Carbon::createFromFormat('YmdHis', $date)->toDateTimeString();
-                    array_push($dates, $convertToDate);
+                    $dates[] = [
+                        'file_name' => $path_parts['basename'],
+                        'date' => $convertToDate
+                    ];
                 }
             }
         }
 
-        return max($dates);
+        return max($dates)['file_name'];
     }
 
     protected function isDateValid($date)
@@ -48,4 +55,5 @@ class FTP {
 
         return true;
     }
+
 }
