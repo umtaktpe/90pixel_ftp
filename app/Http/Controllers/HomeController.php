@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\addCategoryToDB;
 use App\Classes\FTP;
+use App\Jobs\addCategoryToDB;
 use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
