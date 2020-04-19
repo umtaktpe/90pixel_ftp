@@ -3,11 +3,13 @@
 namespace App\Jobs;
 
 use App\Classes\CategoryDB;
+use App\Mail\CategoryAdded;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Mail;
 
 class addCategoryToDB implements ShouldQueue
 {
@@ -35,6 +37,22 @@ class addCategoryToDB implements ShouldQueue
     {
         $categoryDB = new CategoryDB($this->file);
 
-        return $categoryDB->addToDB();
+        $response = $categoryDB->addToDB();
+        $response = json_decode($response->getContent())->status;
+
+        if ($response == 'error') {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Somethings wrong!'
+            ]);
+        }
+
+        Mail::to('example@gmail.com')
+            ->queue(new CategoryAdded());
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Process completed!'
+        ]);
     }
 }

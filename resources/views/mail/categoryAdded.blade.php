@@ -1,0 +1,1 @@
+FTP'den alınan excel dosyasının veritabanına aktarım işlemi tamamlandı.
