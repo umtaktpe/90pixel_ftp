@@ -18,7 +18,7 @@ class CreateCategoriesTable extends Migration
             $table->string('category_name');
             $table->integer('_lft');
             $table->integer('_rgt');
-            $table->integer('parent_id');
+            $table->integer('parent_id')->nullable();
             $table->timestamps();
         });
     }

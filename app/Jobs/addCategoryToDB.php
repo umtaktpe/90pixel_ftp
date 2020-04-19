@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Classes\CategoryDB;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -13,23 +14,27 @@ class addCategoryToDB implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $file;
+
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param $file
      */
     public function __construct($file)
     {
         $this->file = $file;
     }
 
+
     /**
      * Execute the job.
      *
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function handle()
     {
-        //Database process.
+        $categoryDB = new CategoryDB($this->file);
+
+        return $categoryDB->addToDB();
     }
 }

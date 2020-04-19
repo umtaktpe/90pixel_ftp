@@ -10,7 +10,9 @@ class Category extends Model
 {
     use Notifiable, NodeTrait;
 
-    protected $guarded = [];
+    protected $table = 'categories';
 
     protected $fillable = ['category_name'];
+
+    protected $guarded = [];
 }
