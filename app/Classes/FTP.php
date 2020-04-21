@@ -13,7 +13,7 @@ class FTP
     {
         try {
             $files = Storage::disk('ftp')->files($this->directory);
-            return $this->getLastFile($this->directory . $files);
+            return $this->getLastFile($files);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
