@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Classes\CategoryDB;
 use App\Mail\CategoryAdded;
 use Illuminate\Bus\Queueable;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -31,7 +32,7 @@ class addCategoryToDB implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function handle()
     {

@@ -1,5 +1,5 @@
 {
-    "name": "laravel/laravel",
+    "name": "90Pixel FTP Project",
     "type": "project",
     "description": "The Laravel Framework.",
     "keywords": [
@@ -17,7 +17,8 @@
         "laravel/tinker": "^2.0",
         "nesbot/carbon": "^2.32",
         "predis/predis": "^1.1",
-        "shuchkin/simplexlsx": "^0.8.14"
+        "shuchkin/simplexlsx": "^0.8.14",
+        "ext-json": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
