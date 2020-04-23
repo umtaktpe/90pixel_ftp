@@ -31,29 +31,14 @@ class addCategoryToDB implements ShouldQueue
 
     /**
      * Execute the job.
-     *
-     * @return JsonResponse
      */
     public function handle()
     {
         $categoryDB = new CategoryDB($this->file);
 
-        $response = $categoryDB->addToDB();
-        $response = json_decode($response->getContent())->status;
+        $categoryDB->addToDB();
 
-        if ($response == 'error') {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Somethings wrong!'
-            ]);
-        }
-
-        Mail::to('example@gmail.com')
+        Mail::to('buradayim@90pixel.com')
             ->queue(new CategoryAdded());
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Process completed!'
-        ]);
     }
 }

@@ -13,13 +13,29 @@ class FTP
     {
         try {
             $files = Storage::disk('ftp')->files($this->directory);
-            return $this->getLastFile($files);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
                 'message' => $e->getMessage()
             ]);
         }
+
+        $lastFileName = $this->getLastFile($files);
+        if ($lastFileName == false) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'No file found under directory.'
+            ]);
+        }
+
+        // Download the file and save to public folder.
+        $getLastFile = Storage::disk('ftp')->get('categories/' . $lastFileName);
+        Storage::disk('uploads')->put($lastFileName, $getLastFile);
+
+        return response()->json([
+            'status' => 'success',
+            'file' => $lastFileName
+        ]);
     }
 
     public function getLastFile($files)
@@ -42,10 +58,14 @@ class FTP
             }
         }
 
+        if (count($dates) == 0) {
+            return false;
+        }
+
         return max($dates)['file_name'];
     }
 
-    protected function isDateValid($date)
+    public function isDateValid($date)
     {
         try {
             Carbon::createFromFormat('YmdHis', $date)->toDateTimeString();
